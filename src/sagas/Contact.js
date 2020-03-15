@@ -1,33 +1,18 @@
 import {all, call, put, takeEvery} from 'redux-saga/effects';
 import {fetchContactsSuccess, showContactMessage} from '../actions/Contact';
-//import {database} from '../firebase/firebase';
 import {FETCH_ALL_CONTACT} from '../constants/ActionTypes';
-import callApi from '../util/Api'
-
-const getContacts = /*async*/ () => {
-  callApi('members', 'GET', null).then(res => {
-    return res.data
-  });
-  // await database.ref('prod/contacts').once('value')
-  //   .then((snapshot) => {
-  //     const contacts = [];
-  //     snapshot.forEach((rawData) => {
-  //       contacts.push(rawData.val());
-  //     });
-  //     return contacts;
-  //   })
-  //   .catch(error => error);
-}
+import axios from 'axios';
 
 function* fetchContactRequest() {
-  const fetchedContact = yield put(getContacts);
-  yield put(fetchContactsSuccess(fetchedContact));
-  // try {
-  //   const fetchedContact = yield call(getContacts);
-  //   yield put(fetchContactsSuccess(fetchedContact));
-  // } catch (error) {
-  //   yield put(showContactMessage(error));
-  // }
+  const fetchedContact = yield axios({
+    method: "GET",
+    url: 'http://5e5a298a6a71ea0014e61c55.mockapi.io/api/members'
+  }).then(res => {
+    return  res.data;
+  }).catch(error => {
+    showContactMessage(error);
+  });
+  yield put(fetchContactsSuccess(fetchedContact)); 
 }
 
 

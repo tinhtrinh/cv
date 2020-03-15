@@ -140,7 +140,7 @@ class ContactWithRedux extends Component {
     this.props.onToggleDrawer();
   };
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.props.fetchContacts();
   }
 
@@ -152,7 +152,6 @@ class ContactWithRedux extends Component {
 
   render() {
     const {user, contactList, addContactState, selectedContacts, alertMessage, showMessage, drawerState, noContentFoundMessage, loader} = this.props;
-    console.log(contactList);
     return (
       <div className="app-wrapper">
         <div className="app-module animated slideInUpTiny animation-duration-3">
